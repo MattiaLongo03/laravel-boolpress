@@ -8,6 +8,7 @@ import PageAbout from './pages/PageAbout';
 import PagePost from './pages/PagePost';
 import PagePosts from './pages/PagePosts';
 import Page404 from './pages/Page404';
+import PageContactus from './pages/PageContactus';
 
 Vue.use(VueRouter); // diciamo a vue di usare il plugin vue-router
 
@@ -21,6 +22,11 @@ const routes = [ // creiamo le nostre specifiche rotte
         path: '/about',
         name: 'about',
         component: PageAbout,
+    },
+    {
+        path: '/contact-us',
+        name: 'contactUs',
+        component: PageContactus,
     },
     {
         path: '/posts',

@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::paginate();
 
         // return view('posts.index', compact('posts'));
 
@@ -21,23 +21,31 @@ class PostController extends Controller
     }
 
 
-    public function show(Post $post)
+    public function show($post) // per l'API non fate le dependency injections
     {
         // return view('posts.index', compact('post'));
 
-        return response()->json([
-            'success' => true,
-            'results' => $post,
-        ]);
+        $post = Post::where('slug', $post)->with(['category', 'tags'])->first();
+
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'results' => $post,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
     }
 
-    // public function everything() {
-    //     $posts = Post::all();
-    //     $categories = Category::all();
+    public function random() {
+        $posts = Post::inRandomOrder()->limit(9)->get();
 
-    //     return response()->json([
-    //         'posts' => $posts,
-    //         'categories'=> $categories,
-    //     ]);
-    // }
+        return response()->json([
+            'success' => true,
+            'results' => $posts,
+        ]);
+    }
 }
